@@ -290,6 +290,8 @@ sub LoadTrackLog($$;$)
                     } elsif (/^(Pos)?Lon/i) {
                         $param = 'lon';
                         /ref$/i and $param .= 'ref';
+                    } elsif (/^Accuracy/i) {
+                        $param = 'err';
                     } elsif (/^(Pos)?Alt/i) {
                         $param = 'alt';
                     } elsif (/^Speed/i) {
@@ -541,6 +543,9 @@ DoneFix:    $isDate = 1;
                 } elsif ($param eq 'runtime') {
                     $date = $trackTime;
                     $secs = $val;
+                } elsif ($param eq 'err') {
+                    $$fix{$param} = $val;
+                    $$has{$param} = 1;
                 } else {
                     $val /= $scaleSpeed if $scaleSpeed and $param eq 'speed';
                     $$fix{$param} = $val;
